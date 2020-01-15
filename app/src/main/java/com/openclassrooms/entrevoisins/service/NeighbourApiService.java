@@ -28,4 +28,6 @@ public interface NeighbourApiService {
 
     void deleteNeighbourFavorite(Neighbour neighbour);
 
+    void setFavoriteNeighbour(int id, boolean fav);
+
 }
