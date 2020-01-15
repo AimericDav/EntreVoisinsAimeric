@@ -30,4 +30,6 @@ public interface NeighbourApiService {
 
     void setFavoriteNeighbour(int id, boolean fav);
 
+    boolean getFavoriteNeighbour(int id);
+
 }

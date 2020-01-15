@@ -41,5 +41,8 @@ public class DummyNeighbourApiService implements  NeighbourApiService {
     public  void setFavoriteNeighbour(int id, boolean fav){
         neighbours.get(id - 1).setFavorite(fav);
     }
+    public boolean getFavoriteNeighbour(int id){
+        return neighbours.get(id-1).getFavorite();
+    }
 
 }
