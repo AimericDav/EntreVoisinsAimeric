@@ -9,13 +9,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.di.DI;
-import com.openclassrooms.entrevoisins.events.AddNeighbourFavoriteEvent;
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourFavoriteEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -78,28 +75,16 @@ public class ProfileActivity extends AppCompatActivity {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isFavorite){
+                if(neighbour.getFavorite()){
                     neighbourApiService.setFavoriteNeighbour(neighbour.getId(), false);
                     favoriteButton.setImageResource(R.drawable.ic_star_border_white_24dp);
-                    isFavorite = false;
-                    textTestFav.setText(String.valueOf(isFavorite));
+                    textTestFav.setText(String.valueOf(neighbour.getFavorite()));
                 } else {
                     neighbourApiService.setFavoriteNeighbour(neighbour.getId(), true);
                     favoriteButton.setImageResource(R.drawable.ic_star_white_24dp);
-                    isFavorite = true;
-                    textTestFav.setText(String.valueOf(isFavorite));
+                    textTestFav.setText(String.valueOf(neighbour.getFavorite()));
                 }
             }
         });
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        /** Condition Event Add and Delete */
-        if(neighbour.getFavorite()){
-            EventBus.getDefault().post(new AddNeighbourFavoriteEvent(neighbour));
-        } else {
-            EventBus.getDefault().post(new DeleteNeighbourFavoriteEvent(neighbour));
-        }
     }
 }

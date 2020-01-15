@@ -13,11 +13,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.ProfileActivity;
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.events.AddNeighbourFavoriteEvent;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourFavoriteEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -65,12 +62,6 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
 
             }
         });
-        /** Condition Event Add and Delete */
-        if(neighbour.getFavorite()){
-            EventBus.getDefault().post(new AddNeighbourFavoriteEvent(neighbour));
-        } else {
-            EventBus.getDefault().post(new DeleteNeighbourFavoriteEvent(neighbour));
-        }
     }
 
     @Override
