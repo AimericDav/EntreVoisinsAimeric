@@ -9,16 +9,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.events.AddNeighbourFavoriteEvent;
+import com.openclassrooms.entrevoisins.events.DeleteNeighbourFavoriteEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.w3c.dom.Text;
 
 public class ProfileActivity extends AppCompatActivity {
 
     /** Neighbour */
     private Neighbour neighbour;
-
-    private TextView testFav;
-    private String testFavString;
 
     /** Init object activity_profile */
     private TextView namePicture;
@@ -29,9 +31,12 @@ public class ProfileActivity extends AppCompatActivity {
     /** Api service grace à DI */
     private NeighbourApiService neighbourApiService;
 
-    /** test discord*/
-    private int imageNumber;
-    private int[] images = {R.drawable.ic_star_white_24dp, R.drawable.ic_star_border_white_24dp};
+    /** Variable pour on Click Favorite */
+    private boolean isFavorite;
+
+    /** Variable pour afficher l'état favoris ou non du neihbour */
+    private TextView textTestFav;
+
 
 
     @Override
@@ -48,6 +53,8 @@ public class ProfileActivity extends AppCompatActivity {
         avatarBackground = findViewById(R.id.avatar_neighbour);
         favoriteButton = findViewById(R.id.favorite_button);
 
+        textTestFav = findViewById(R.id.test);
+
         /** Declarate api service with DI */
         neighbourApiService = DI.getNeighbourApiService();
 
@@ -57,51 +64,42 @@ public class ProfileActivity extends AppCompatActivity {
         /** Glide for set picture */
         Glide.with(ProfileActivity.this).load(neighbour.getAvatarUrl()).into(avatarBackground);
 
-        /** Test favorite */
-        testFav = findViewById(R.id.test);
-
         /** Condition get favorite pour affihcer good actionButton au lancement  */
         if(neighbour.getFavorite()){
+            isFavorite = true;
+            textTestFav.setText(String.valueOf(isFavorite));
             favoriteButton.setImageResource(R.drawable.ic_star_white_24dp);
         } else {
+            isFavorite = false;
+            textTestFav.setText(String.valueOf(isFavorite));
             favoriteButton.setImageResource(R.drawable.ic_star_border_white_24dp);
         }
-
-        buttonClick();
-
         /** Click actionButton for  set Favorite or not */
-     /**   favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(neighbour.getFavorite()){
-                    testFav.setText(String.valueOf(neighbour.getFavorite()));
-                    neighbourApiService.setFavoriteNeighbour(neighbour.getId(), false);
-                    favoriteButton.setImageResource(R.drawable.ic_star_border_white_24dp);
-                } else {
-                    testFav.setText(String.valueOf(neighbour.getFavorite()));
-                    neighbourApiService.setFavoriteNeighbour(neighbour.getId(), true);
-                    favoriteButton.setImageResource(R.drawable.ic_star_white_24dp);
-                }
-            }
-        }); */
-    }
-    public void buttonClick() {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageNumber++;
-                imageNumber = imageNumber % images.length;
-                favoriteButton.setImageResource(images[imageNumber]);
-                if (imageNumber == 0) {
-                    neighbour.setFavorite(true);
-                    neighbourApiService.setFavoriteNeighbour(neighbour.getId(), true);
-                    testFav.setText(String.valueOf(neighbour.getFavorite()));
-
-                } else {
-                    neighbour.setFavorite(false);
+                if(isFavorite){
                     neighbourApiService.setFavoriteNeighbour(neighbour.getId(), false);
-                    testFav.setText(String.valueOf(neighbour.getFavorite()));
+                    favoriteButton.setImageResource(R.drawable.ic_star_border_white_24dp);
+                    isFavorite = false;
+                    textTestFav.setText(String.valueOf(isFavorite));
+                } else {
+                    neighbourApiService.setFavoriteNeighbour(neighbour.getId(), true);
+                    favoriteButton.setImageResource(R.drawable.ic_star_white_24dp);
+                    isFavorite = true;
+                    textTestFav.setText(String.valueOf(isFavorite));
                 }
             }
-        });}
+        });
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        /** Condition Event Add and Delete */
+        if(neighbour.getFavorite()){
+            EventBus.getDefault().post(new AddNeighbourFavoriteEvent(neighbour));
+        } else {
+            EventBus.getDefault().post(new DeleteNeighbourFavoriteEvent(neighbour));
+        }
+    }
 }
