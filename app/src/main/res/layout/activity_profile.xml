@@ -24,7 +24,7 @@
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="2"
-        android:text="Caroline"
+        android:text="Name"
         android:textColor="#FFFFFF"
         android:textSize="30dp"
         app:layout_constraintLeft_toLeftOf="@id/avatar_neighbour"
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/name_neighbour_info"
-                android:text="Caroline"
+                android:text="Name"
                 android:textSize="22dp"
                 android:textColor="#191919"
                 app:layout_constraintTop_toTopOf="parent"
@@ -170,6 +170,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/a_propos_title"
                 app:layout_constraintRight_toRightOf="@id/cardview_a_propos"
                 android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="20dp"
                 />
 
 

@@ -24,7 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 
-public class NeighbourFragment extends Fragment {
+public class FavoriteFragment extends Fragment {
 
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
@@ -33,10 +33,10 @@ public class NeighbourFragment extends Fragment {
 
     /**
      * Create and return a new instance
-     * @return @{@link NeighbourFragment}
+     * @return @{@link FavoriteFragment}
      */
-    public static NeighbourFragment newInstance() {
-        NeighbourFragment fragment = new NeighbourFragment();
+    public static FavoriteFragment newInstance() {
+        FavoriteFragment fragment = new FavoriteFragment();
         return fragment;
     }
 
@@ -62,7 +62,7 @@ public class NeighbourFragment extends Fragment {
      * Init the List of neighbours
      */
     private void initList() {
-        mNeighbours = mApiService.getNeighbours();
+        mNeighbours = mApiService.getFavoriteNeighbours();
         mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
     }
 
@@ -85,6 +85,19 @@ public class NeighbourFragment extends Fragment {
     @Subscribe
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
         mApiService.deleteNeighbour(event.neighbour);
+        initList();
+    }
+
+    /** Copier pour l'eventbus */
+    @Subscribe
+    public void onAddNeighbourFavorite(AddNeighbourFavoriteEvent event) {
+        mApiService.addNeighbourFavorite(event.neighbour);
+        initList();
+    }
+
+    @Subscribe
+    public void onDeleteNeighbourFavorite(DeleteNeighbourFavoriteEvent event) {
+        mApiService.deleteNeighbourFavorite(event.neighbour);
         initList();
     }
 }
