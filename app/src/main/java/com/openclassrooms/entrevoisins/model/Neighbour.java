@@ -79,6 +79,14 @@ public class Neighbour implements Parcelable {
         return avatarUrl;
     }
 
+    public Boolean getFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
+    }
+
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
@@ -114,11 +122,5 @@ public class Neighbour implements Parcelable {
         parcel.writeByte((byte) (isFavorite == null ? 0 : isFavorite ? 1 : 2));
     }
 
-    public Boolean getFavorite() {
-        return isFavorite;
-    }
 
-    public void setFavorite(Boolean favorite) {
-        isFavorite = favorite;
-    }
 }

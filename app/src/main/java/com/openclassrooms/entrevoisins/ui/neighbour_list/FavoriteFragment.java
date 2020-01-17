@@ -65,6 +65,12 @@ public class FavoriteFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        initList();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);

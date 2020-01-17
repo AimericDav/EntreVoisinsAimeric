@@ -13,8 +13,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.ProfileActivity;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -26,6 +28,7 @@ import butterknife.ButterKnife;
 public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
     private final List<Neighbour> mNeighbours;
+    private NeighbourApiService neighbourApiService;
 
     public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
         mNeighbours = items;
@@ -41,6 +44,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Neighbour neighbour = mNeighbours.get(position);
+        neighbourApiService = DI.getNeighbourApiService();
         holder.mNeighbourName.setText(neighbour.getName());
         Glide.with(holder.mNeighbourAvatar.getContext())
                 .load(neighbour.getAvatarUrl())
@@ -53,13 +57,12 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
             }
         });
-        holder.mNeighbourAvatar.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent profileActivityIntent = new Intent(view.getContext(), ProfileActivity.class);
                 profileActivityIntent.putExtra("neighbour", neighbour);
                 view.getContext().startActivity(profileActivityIntent);
-
             }
         });
     }

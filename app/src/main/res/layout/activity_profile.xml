@@ -19,14 +19,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/test"
-        android:text="Test Fav"
-        android:textColor="#FFFFFF"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/name_neighbour_picture"
         android:shadowColor="#191919"
         android:shadowDx="2"

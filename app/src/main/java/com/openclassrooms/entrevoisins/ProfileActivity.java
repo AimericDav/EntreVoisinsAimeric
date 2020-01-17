@@ -28,9 +28,6 @@ public class ProfileActivity extends AppCompatActivity {
     /** Api service grace à DI */
     private NeighbourApiService neighbourApiService;
 
-    /** Variable pour afficher l'état favoris ou non du neihbour */
-    private TextView textTestFav;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +42,6 @@ public class ProfileActivity extends AppCompatActivity {
         avatarBackground = findViewById(R.id.avatar_neighbour);
         favoriteButton = findViewById(R.id.favorite_button);
 
-        textTestFav = findViewById(R.id.test);
-
         /** Declarate api service with DI */
         neighbourApiService = DI.getNeighbourApiService();
 
@@ -58,10 +53,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         /** Condition get favorite pour afficher good actionButton au lancement  */
         if(neighbourApiService.getFavoriteNeighbour(neighbour.getId())){
-            textTestFav.setText(String.valueOf(neighbour.getFavorite()));
             favoriteButton.setImageResource(R.drawable.ic_star_white_24dp);
         } else {
-            textTestFav.setText(String.valueOf(neighbour.getFavorite()));
             favoriteButton.setImageResource(R.drawable.ic_star_border_white_24dp);
         }
         /** Click actionButton for  set Favorite or not */
@@ -71,11 +64,9 @@ public class ProfileActivity extends AppCompatActivity {
                 if(neighbourApiService.getFavoriteNeighbour(neighbour.getId())){
                     favoriteButton.setImageResource(R.drawable.ic_star_border_white_24dp);
                     neighbourApiService.setFavoriteNeighbour(neighbour.getId(), false);
-                    textTestFav.setText(String.valueOf(neighbourApiService.getFavoriteNeighbour(neighbour.getId())));
                 } else {
                     favoriteButton.setImageResource(R.drawable.ic_star_white_24dp);
                     neighbourApiService.setFavoriteNeighbour(neighbour.getId(), true);
-                    textTestFav.setText(String.valueOf(neighbourApiService.getFavoriteNeighbour(neighbour.getId())));
                 }
             }
         });
