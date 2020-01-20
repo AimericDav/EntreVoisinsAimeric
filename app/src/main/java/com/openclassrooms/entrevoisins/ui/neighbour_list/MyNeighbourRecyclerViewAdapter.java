@@ -57,6 +57,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
             }
         });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +80,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         public TextView mNeighbourName;
         @BindView(R.id.item_list_delete_button)
         public ImageButton mDeleteButton;
+
 
         public ViewHolder(View view) {
             super(view);
