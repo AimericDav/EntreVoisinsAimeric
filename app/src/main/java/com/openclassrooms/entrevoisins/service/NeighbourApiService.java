@@ -28,4 +28,6 @@ public interface NeighbourApiService {
 
     boolean getFavoriteNeighbour(int id);
 
+    Neighbour getNeighbourById(int id);
+
 }

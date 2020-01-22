@@ -39,11 +39,23 @@ public class DummyNeighbourApiService implements  NeighbourApiService {
 
     @Override
     public  void setFavoriteNeighbour(int id, boolean fav){
-        neighbours.get(id - 1).setFavorite(fav);
+        Neighbour neighbour = getNeighbourById(id);
+            neighbour.setFavorite(fav);
     }
     @Override
     public boolean getFavoriteNeighbour(int id){
-        return neighbours.get(id-1).getFavorite();
+        Neighbour neighbour = getNeighbourById(id);
+        return neighbour.getFavorite();
+    }
+
+    @Override
+    public Neighbour getNeighbourById(int id) {
+        for(Neighbour neighbour : neighbours){
+            if (neighbour.getId() == id){
+                return neighbour;
+            }
+        }
+        return null;
     }
 
 
