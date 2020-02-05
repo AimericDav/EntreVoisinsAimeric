@@ -42,7 +42,6 @@ public class FavoriteTest {
 
     private ListNeighbourActivity mActivity;
     private NeighbourApiService apiService;
-    private ListNeighbourPagerAdapter listNeighbourAdapter;
 
     @Rule
     public ActivityTestRule<ListNeighbourActivity> mActivityTestRule = new ActivityTestRule<>(ListNeighbourActivity.class);
