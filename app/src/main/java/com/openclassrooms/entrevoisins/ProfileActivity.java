@@ -1,5 +1,6 @@
 package com.openclassrooms.entrevoisins;
 
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView nameInfo;
     private ImageView avatarBackground;
     private FloatingActionButton favoriteButton;
+    private ImageView backArrow;
 
     /** Api service grace à DI */
     private NeighbourApiService neighbourApiService;
@@ -41,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
         nameInfo = findViewById(R.id.name_neighbour_info);
         avatarBackground = findViewById(R.id.avatar_neighbour);
         favoriteButton = findViewById(R.id.favorite_button);
+        backArrow = findViewById(R.id.arrow_back);
 
         /** Declarate api service with DI */
         neighbourApiService = DI.getNeighbourApiService();
@@ -48,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
         /** Set Neighbour param of object activity_profile */
         namePicture.setText(neighbour.getName());
         nameInfo.setText(neighbour.getName());
+
         /** Glide for set picture */
         Glide.with(ProfileActivity.this).load(neighbour.getAvatarUrl()).into(avatarBackground);
 
@@ -57,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             favoriteButton.setImageResource(R.drawable.ic_star_border_white_24dp);
         }
+
         /** Click actionButton for  set Favorite or not */
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,5 +75,14 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /**Return back with Arrow */
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileActivity.this.finish();
+            }
+        });
+
     }
 }
